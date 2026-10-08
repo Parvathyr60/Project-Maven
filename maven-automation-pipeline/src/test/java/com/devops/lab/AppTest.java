@@ -48,7 +48,7 @@ assertEquals(7, optimizedCycleTime, "The optimized cycle time calculation failed
 
 public void verifySystemBottleneckValidation() { 
 
-booleanconstraintDefectDetected = true; 
+boolean constraintDefectDetected = false; 
 
 // Intentionally assertion failure simulating a major production integration blocker 
 

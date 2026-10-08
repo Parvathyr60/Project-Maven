@@ -6,43 +6,27 @@ on:
   pull_request:
     branches: ["main"]
 
-jobs: 
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
 
-build-and-validate: 
+    strategy:
+      matrix:
+        java-version: [17, 21]
 
-runs-on:ubuntu-latest 
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
 
- 
+      - name: Setup JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: "temurin"
+          cache: "maven"
 
-strategy: 
-
-matrix: 
-
-java-version: [17, 21] 
-
- 
-
-steps: 
-
--name:CheckoutSourceCode 
-
-uses:actions/checkout@v4 
-
--name:SetupJDK${{matrix.java-version}} 
-
-uses:actions/setup-java@v4 
-
-with: 
-
-java-version:${{matrix.java-version}} 
-
-distribution:'temurin' 
-
-cache:'maven' 
-
--name:RunAutomatedTestSuites 
-
-run:mvntest
+      - name: Run Automated Test Suites
+        run: mvn test
 name: DevOps Java CI Automation Pipeline
 
 on:
